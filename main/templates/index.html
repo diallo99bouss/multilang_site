@@ -1,12 +1,27 @@
+<!-- base.html -->
 {% load i18n %}
 
-<!DOCTYPE html>
 <html>
 <head>
-    <title>{% trans "Welcome to our site" %}</title>
+    <title>{% block title %}My Site{% endblock %}</title>
 </head>
 <body>
-    <p>{% trans "Welcome to our site" %}</p>
-    <p>{% blocktrans %}This is a paragraph that will be translated.{% endblocktrans %}</p>
+    <!-- Menu de langue -->
+    <div class="language-menu">
+        <form action="{% url 'set_language' %}" method="post">
+            {% csrf_token %}
+            <input name="next" type="hidden" value="{{ redirect_to }}">
+            <button type="submit" name="language" value="en">
+                <img src="{% static 'images/flags/en.png' %}" alt="English">
+            </button>
+            <button type="submit" name="language" value="fr">
+                <img src="{% static 'images/flags/fr.png' %}" alt="Français">
+            </button>
+            <!-- Ajoutez d'autres langues si nécessaire -->
+        </form>
+    </div>
+
+    {% block content %}
+    {% endblock %}
 </body>
 </html>
